@@ -1,0 +1,52 @@
+{% extends 'pronostics/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Mes pronostics</h1>
+
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date / Heure</th>
+                    <th>Match</th>
+                    <th>Pronostic</th>
+                    <th>Score réel</th>
+                    <th>Points</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in pronos %}
+                <tr>
+                    <td>{{ p.match.date|date:"d/m/Y H:i" }}</td>
+                    <td>{{ p.match.equipe_domicile }} - {{ p.match.equipe_exterieure }}</td>
+                    <td>
+                        {% if p.score_domicile is not None and p.score_exterieur is not None %}
+                            {{ p.score_domicile }} - {{ p.score_exterieur }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if p.match.is_played %}
+                            {{ p.match.score_domicile }} - {{ p.match.score_exterieur }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ p.calculer_points }}</td>
+                    <td>
+                        {% if p.match.can_pronostiquer %}
+                            <a href="{% url 'pronostics:pronostiquer' p.match.id %}" class="btn btn-sm btn-primary">Modifier</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

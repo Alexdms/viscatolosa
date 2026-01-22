@@ -1,0 +1,38 @@
+{% extends 'pronostics/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Classement</h1>
+
+        {% if prochain_match %}
+            <div class="alert alert-info mb-4">
+                Prochain match : {{ prochain_match.equipe_domicile }} - {{ prochain_match.equipe_exterieure }} ({{ prochain_match.date|date:"d/m/Y H:i" }})
+            </div>
+        {% endif %}
+
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Rang</th>
+                    <th>Utilisateur</th>
+                    <th>Points</th>
+                    <th>Prono semaine</th>
+                    <th>Points semaine</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in classement %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ u.username }}</td>
+                    <td>{{ u.total }}</td>
+                    <td>{{ u.prono_semaine }}</td>
+                    <td>{{ u.points_semaine }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

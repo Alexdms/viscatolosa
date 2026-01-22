@@ -1,0 +1,21 @@
+{% extends 'pronostics/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Bienvenue sur Visca Tolosa</h1>
+
+        {% if prochain_match %}
+            <div class="alert alert-info">
+                <h5>Prochain match</h5>
+                <p class="mb-2">{{ prochain_match.equipe_domicile }} - {{ prochain_match.equipe_exterieure }} le {{ prochain_match.date|date:"d/m/Y à H:i" }}</p>
+                <a href="{% url 'pronostics:pronostiquer' prochain_match.id %}" class="btn btn-primary">Pronostiquer ce match</a>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                Aucun match à pronostiquer pour le moment.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

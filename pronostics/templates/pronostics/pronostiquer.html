@@ -1,0 +1,58 @@
+{% extends 'pronostics/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Pronostiquer : {{ match.equipe_domicile }} - {{ match.equipe_exterieure }}</h1>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Détails du match</h5>
+                <p class="card-text"><strong>Date / Heure :</strong> {{ match.date|date:"d/m/Y H:i" }}</p>
+            </div>
+        </div>
+
+        {% if match.can_pronostiquer %}
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Votre pronostic</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form.score_domicile.label_tag }}
+                                    {{ form.score_domicile }}
+                                    {% if form.score_domicile.errors %}
+                                        <div class="text-danger">{{ form.score_domicile.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form.score_exterieur.label_tag }}
+                                    {{ form.score_exterieur }}
+                                    {% if form.score_exterieur.errors %}
+                                        <div class="text-danger">{{ form.score_exterieur.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enregistrer le pronostic</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">
+                Vous ne pouvez plus pronostiquer sur ce match.
+            </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <a href="{% url 'pronostics:mes_pronos' %}" class="btn btn-secondary">Retour à mes pronostics</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
